@@ -10,7 +10,9 @@ from asgiref.sync import sync_to_async
 from django.contrib.auth import get_user
 from django.contrib.auth.models import User as Users
 from django.core.paginator import Paginator
-
+import markdown
+from django.utils.safestring import mark_safe
+from markdown import markdown as md_to_html
 from authentication.utils import get_gmail_messages, gmail_message, extract_email_details, clean_email_body
 from authentication.utils import get_gmail_history, send_gmail_email, extract_email_details_from_model
 from authentication.utils import reply_to_gmail_email, trash_gmail_message
@@ -174,10 +176,7 @@ def home_page(request):
 
     except Exception as e:
         return JsonResponse({"error": str(e)}, status=500)
-    return render(request, 'index.html', {
-        "data": final_data,
-        "raw_data": raw_data,
-    })
+    return redirect('get_inbox')
 
 
 ## Making some useful API's in the views
@@ -273,7 +272,7 @@ def reply_to_mails(request, message_id, thread_id):
     try:
         reply = IncomingEmails.objects.get(reply_to__message_id=message_id, is_outgoing=True)
         original_email = IncomingEmails.objects.filter(message_id=message_id).first()
-
+        
         to = original_email.sender.email if original_email else None
         subject = reply.subject
         body_text = reply.body
@@ -313,18 +312,20 @@ def reply_to_mails(request, message_id, thread_id):
 def load_inbox(request):
     user = request.user
     gmail_contact = GmailContact.objects.filter(email=user.email).first()
-    email_list = IncomingEmails.objects.filter(reciver=user, sent=False,
-    ).order_by('-internal_date')
-    sent_email = IncomingEmails.objects.filter(sender=gmail_contact)
-    # setting up the paginator:
+
+    email_list = IncomingEmails.objects.filter(reciver=user, is_outgoing=False).order_by('-internal_date')
+    sent_email = IncomingEmails.objects.filter(sender=gmail_contact, is_outgoing=True).order_by('-internal_date')
+
+    # Pagination setup
     paginator = Paginator(email_list, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
     return render(request, 'get_mails.html', {
         'page_obj': page_obj,
-        "sent_mails": sent_email
+        'sent_mails': sent_email
     })
+
     
     
 def get_indivisual_mail(request, message_id):
@@ -588,8 +589,9 @@ async def agent_chat_response(request):
             query = f"Server received: {query}"
             user = request.user
             answer = await chat_with_agent_on_email(user, query)
-            print("Agent reply:", answer, type(answer))  # check if it's a coroutine
-            return JsonResponse({"response": answer}, status=200)
+            markdown_response = md_to_html(answer)  # Convert Markdown to HTML
+            safe_html = mark_safe(markdown_response)   # check if it's a coroutine
+            return JsonResponse({"response": safe_html}, status=200)
     except Exception as e:
         print("Error occurred:", e)
         traceback.print_exc()

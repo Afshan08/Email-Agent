@@ -29,7 +29,9 @@ from openai import OpenAI
 from typing import List
 import sys
 import os
-import django
+from dotenv import load_dotenv
+load_dotenv()
+
 from asgiref.sync import sync_to_async
 from dataclasses import dataclass
 from agents.result import RunResultBase
@@ -38,11 +40,11 @@ from .email_manager_agent_instructions import Instructions
 
 instructions_for_manager_agent = Instructions()
 # Gemini API key
-gemini_api_key = 'AIzaSyCZN_Z3viLSnwZpfs_BptKlkZjKTNvRzqw'
+gemini_api_key = os.getenv('GEMINI_API_KEY')
 
 # Check if the API key is present; if not, raise an error
 if not gemini_api_key:
-    raise ValueError("GEMINI_API_KEY is not set. Please ensure it is defined in your .env file.")
+    raise ValueError("GEMINI_API_KEY is not set. Please ensure it is defined in your environment variables.")
 
 # Reference: https://ai.google.dev/gemini-api/docs/openai
 external_client = AsyncOpenAI(

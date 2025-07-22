@@ -1,91 +1,80 @@
-{% extends "layout.html"%}
-{% load static%}
+{% extends "layout.html" %}
+{% load static %}
 
-{% block stylesheet%}
+{% block stylesheet %}
     <link href="{% static 'css/get_mails.css' %}" rel="stylesheet">
     <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-
-{% endblock%}
+{% endblock %}
 
 {% block javascript %}
     <script src="{% static 'javascript/send_mails.js' %}"></script>
 {% endblock %}
 
-
 {% block title %}Inbox{% endblock %}
 
 {% block content %}
-<h3 class="heading"> Sent Replies</h3>
- {% for mail in sent_mails %}
-    {% if not mail.is_replied %}
-        <a href="{% url 'get_indivisual_message' mail.id %}">
-        <div class="inbox" id="inbox-{{mail.id}}">
-            <div class="mail-subject">
-                {{ mail.subject }}
-            </div>
+<h3 class="heading">Sent Replies</h3>
+<div class="all-mails">
+    {% for mail in sent_mails %}
+        {% if not mail.sent %}
+            <a href="{% url 'get_indivisual_message' mail.id %}">
+                <div class="inbox" id="inbox-{{ mail.id }}">
+                    <div class="mail-subject">
+                        {{ mail.subject }}
+                    </div>
+                </div>
+            </a>
+        {% endif %}
+    {% empty %}
+        <p class="heading">No sent mails found.</p>
+    {% endfor %}
+</div>
 
-            <div class="mail-buttons">
-                <button class="inbox-buttons send-reply"
-                        data-message-id="{{ mail.message_id }}"
-                        data-thread-id="{{ mail.thread_id }}">
-                    Send Reply
-                </button>
-                {% if not mail.reviewed%}
-                    <a href="{% url 'generate_agents_response' mail.id %}">
-                        <button class="inbox-buttons edit-mail">Generate Reply</button>
-                    </a>
-                {% else %}
-                    <a href="{% url 'generate_agents_response' mail.id %}">
-                        <button class="inbox-buttons edit-mail">Edit Mail</button>
-                    </a>
-                {% endif %}
-            </div>
-
-        </div>
-        </a>
-{% endif %}
-{% empty %}
-
-    <p class="heading">No sent found in your inbox.</p>
-{% endfor %}
-
-
-<h3 class="heading" >Mails In Your Inbox</h3>
+<h3 class="heading">Mails In Your Inbox</h3>
 <div class="all-mails">
     {% for mail in page_obj %}
-    {% if not mail.is_replied %}
-        <a href="{% url 'get_indivisual_message' mail.id %}">
-        <div class="inbox" id="inbox-{{mail.id}}">
-            <div class="mail-subject">
-                {{ mail.subject }}
-            </div>
+    {% with reply=mail.incomingemails_set.all|first %}
+        {% if not mail.is_outgoing and not reply.sent %}
+            <a href="{% url 'get_indivisual_message' mail.id %}">
+                <div class="inbox" id="inbox-{{ mail.id }}">
+                    <div class="mail-subject">
+                        {{ mail.subject }}
+                    </div>
 
-            <div class="mail-buttons">
-                <button class="inbox-buttons send-reply"
-                        data-message-id="{{ mail.message_id }}"
-                        data-thread-id="{{ mail.thread_id }}">
-                    Send Reply
-                </button>
-                {% if not mail.reviewed%}
-                    <a href="{% url 'generate_agents_response' mail.id %}">
-                        <button class="inbox-buttons edit-mail">Generate Reply</button>
-                    </a>
-                {% else %}
-                    <a href="{% url 'generate_agents_response' mail.id %}">
-                        <button class="inbox-buttons edit-mail">Edit Mail</button>
-                    </a>
-                {% endif %}
-            </div>
-
-        </div>
-        </a>
-{% endif %}
-{% empty %}
-
-    <p class="heading">No mails found in your inbox.</p>
-{% endfor %}
+                    <div class="mail-buttons">
+                        <button class="inbox-buttons send-reply"
+                                data-message-id="{{ mail.message_id }}"
+                                data-thread-id="{{ mail.thread_id }}">
+                            Send Reply
+                        </button>
+                
+                    {% if reply and reply.is_reply_generated_by_agent %}
+                        {% if not reply.reviewed %}
+                            <a href="{% url 'generate_agents_response' mail.id %}">
+                                <button class="inbox-buttons edit-mail">Generate Reply</button>
+                            </a>
+                        {% else %}
+                            <a href="{% url 'generate_agents_response' mail.id %}">
+                                <button class="inbox-buttons edit-mail">Edit Mail</button>
+                            </a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{% url 'generate_agents_response' mail.id %}">
+                            <button class="inbox-buttons edit-mail">Generate Reply</button>
+                        </a>
+                    {% endif %}
+   
+                    </div>
+                </div>
+            </a>
+        {% endif %}
+        {% endwith %}
+    {% empty %}
+        <p class="heading">No mails found in your inbox.</p>
+    {% endfor %}
 </div>
- {% comment %} THis is the paginator  {% endcomment %}
+
+{% comment %} Pagination Controls {% endcomment %}
 {% if page_obj.has_other_pages %}
   <ul class="pagination">
     {% if page_obj.has_previous %}
@@ -107,7 +96,4 @@
     {% endif %}
   </ul>
 {% endif %}
-
-
-</div>
 {% endblock %}
