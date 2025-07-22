@@ -1,110 +1,63 @@
-✨ EmailAgent – Your Intelligent Email Assistant
-EmailAgent is a privacy-conscious, intelligent assistant that helps users manage, categorize, and reply to their emails using AI. Built for modern professionals overwhelmed with inbox clutter, this tool leverages OpenAI's Agent SDK to generate context-aware replies while learning the user’s writing style — all within a secure and user-friendly environment.
+# 📬 EmailAgent
 
-🚀 Features
-🔐 Google OAuth2 Login using Django Allauth
+**EmailAgent** is a secure, AI-powered web application that helps users manage and reply to their emails intelligently. It integrates with Gmail using OAuth2 and lets users interact with their inbox through a smart, chat-based interface powered by OpenAI's Agent SDK.
 
-📥 Fetch emails securely from Gmail using access/refresh tokens
+The core goal is to **classify emails**, **identify important messages**, and **generate meaningful, personalized replies** that match the user’s writing style — all while keeping **user privacy and security** at the center.
 
-📂 Classify emails into categories (e.g. newsletters, social, updates)
+---
 
-✍️ Reply suggestions generated using OpenAI's agent framework
+## 🚀 Features
 
-🧠 Mimics your writing style from past sent emails
+- 🔐 **Secure Gmail Authentication** via OAuth2 using Django Allauth
+- 🤖 **OpenAI Agent SDK** integration to generate intelligent replies
+- 📊 **Email Classification** using persona categories (e.g., Professional, Personal, Newsletters, etc.)
+- 💬 **Chat Interface** to converse with your inbox
+- 🔐 **No raw content stored** — only encrypted metadata is stored
+- 🧠 **Context-aware replies** trained from your sent email writing patterns
+- 🧪 **Token refresh mechanism** to handle expired access
+- 🔄 Built-in **reply generator**, **send mail** function, and **watch history**
 
-💬 Chat UI for interacting with the AI agent (coming soon)
+---
 
-🧱 Privacy-first design: No raw email content stored
+## 🧠 Tech Stack
 
-⚙️ Secure token and device management
+| Layer         | Technologies Used                                      |
+|---------------|--------------------------------------------------------|
+| 💻 Backend     | Python, Django (with Django Allauth), SQLite          |
+| ⚙️ Async Engine | `asyncio`, `asgiref`, Django async views              |
+| 🧠 AI Layer     | OpenAI Agent SDK (Runner, Tool, Guardrails)          |
+| 🔐 Security     | Gmail OAuth2, Token Refresh, Email Encryption (Fernet) |
+| 🌐 Frontend    | HTML, Tailwind CSS, Vanilla JS, Chat UI (Custom)      |
+| 🧪 Testing      | Custom scripts and prompt testing                     |
+| 🐳 DevOps       | Docker (planned), Git for version control             |
 
-🛠️ Technologies Used
-💻 Backend
-Python 3.10+
+---
 
-Django – Core backend framework
 
-Django Allauth – Handles OAuth2 login with Google
+---
 
-OpenAI Agent SDK – Builds the intelligent agent response system
+## 🛡️ Privacy-first Approach
 
-asyncio / asgiref – Handles asynchronous email parsing and agent interaction
+- ✅ User emails are **not stored** in the raw format
+- ✅ Only **essential encrypted metadata** is saved
+- ✅ Users **own their API access**; app avoids centralizing sensitive scopes
 
-Fernet (cryptography) – For encrypting sensitive fields like tokens
+---
 
-🖼️ Frontend
-HTML/CSS/JS
+## 🏗️ Upcoming Plans
 
-(Planned) ReactJS – For the interactive chat interface
+- [ ] Outlook integration
+- [ ] Fully containerized setup with Docker
+- [ ] Admin dashboard to manage access tokens and analytics
+- [ ] More advanced email analysis tools (e.g., tone detection, summarization)
 
-AJAX – For asynchronous validation and updates
+---
 
-🗃️ Database
-SQLite (for development)
+## 📣 How to Use
 
-Plans to support PostgreSQL in production
+1. Clone the repo:
+   ```bash
+   git clone https://github.com/Afshan08/EmailAgent.git
+   cd EmailAgent
 
-🧩 Agent Intelligence Details
-The agent can:
-
-Parse a user's latest emails
-
-Identify the purpose of each message
-
-Draft a smart, personalized reply
-
-Allow user feedback to improve future outputs
-
-It uses:
-
-Dynamic prompting
-
-Guardrails for responsible generation
-
-User persona encoding instead of raw message storage
-
-🔐 Security Highlights
-Tokens encrypted with Fernet
-
-Tokens refreshed securely using Google API
-
-OAuth2 login via scoped access, not full Gmail access
-
-Plans to support key-based agent invocation (user can generate and revoke keys)
-
-📦 Installation
-bash
-Copy
-Edit
-git clone https://github.com/Afshan08/Email-Agent.git
-cd Email-Agent
-python -m venv venv
-source venv/bin/activate  # or venv\Scripts\activate on Windows
-pip install -r requirements.txt
-python manage.py migrate
-python manage.py runserver
-📅 Roadmap
- Gmail OAuth2 login
-
- Token management and refresh
-
- Email fetching and classification
-
- Reply generation using OpenAI Agent SDK
-
- Chat-based frontend UI
-
- Support for Outlook and Yahoo
-
- Deploy to production with PostgreSQL
-
-🧠 Developer Notes
-No sensitive data is stored in plain text
-
-Designed with modularity for pluggable email providers
-
-Built with upcoming open-source release in mind
-
-🙋‍♀️ About the Author
-Made with 💻, ☕, and ambition by Afshan Afridi, a passionate web developer with a goal to build meaningful, secure, and intelligent tools for real-world productivity.
-
+👩‍💻 Built with ❤️ by Afshan Afridi
