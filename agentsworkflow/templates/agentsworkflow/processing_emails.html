@@ -1,0 +1,27 @@
+
+<div id="email-results">
+    <p>⚠️ No replies generated yet.</p>
+</div>
+
+<div class="htmx-indicator">
+    <p>🧠 Thinking... please wait while replies are generated.</p>
+</div>
+
+<h3>📩 Processed Emails</h3>
+
+{% for email in data %}
+    <div class="card">
+        <h4>{{ email.subject }}</h4>
+        <p><strong>From:</strong> {{ email.sender }}</p>
+        <p>{{ email.body }}</p>
+        {% if email.reply %}
+            <hr>
+            <p><strong>Reply:</strong> {{ email.reply }}</p>
+        {% else %}
+            <p><em>No reply was needed.</em></p>
+        {% endif %}
+    </div>
+{% empty %}
+    <p>No replies generated yet.</p>
+{% endfor %}
+

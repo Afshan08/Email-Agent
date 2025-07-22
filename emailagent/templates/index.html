@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inbox</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f9f9f9;
+            padding: 2rem;
+        }
+        .email {
+            background: #fff;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 5px solid #5a5aff;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .subject {
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        .meta {
+            color: #555;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        .body {
+            white-space: pre-wrap; /* This preserves line breaks in text */
+            font-size: 0.95rem;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Your Inbox</h1>
+    {{raw_data}}
+    {% for email in data %}
+        <div class="email">
+            <div class="subject">{{ email.subject }}</div>
+            <div class="meta">
+                <span><strong>From:</strong> {{ email.sender }}</span><br>
+                <span><strong>To:</strong> {{ email.to }}</span>
+            </div>
+            <div class="body">{{ email.body|linebreaksbr|safe }}</div>
+        </div>
+    {% empty %}
+        <p>No emails to display.</p>
+    {% endfor %}
+</body>
+</html>

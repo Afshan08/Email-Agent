@@ -1,0 +1,77 @@
+<!DoctypeHTML>
+<html>
+<head>
+    {% load static %}
+    <title>
+        {% block title %}
+        Email Agent 
+        {% endblock %}
+    </title>
+
+    {% block fonts %}
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Imprima&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    {% endblock%}
+
+    {% block icons %}
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" rel="stylesheet">
+    
+    {% endblock %}
+
+    {% block stylesheet %}
+
+    {% endblock %}
+    {% block javascript %}
+    
+    {% endblock %}
+        <link rel="stylesheet" href="{% static 'css/layout_1.css' %}">
+</head>
+    <body>
+        <div class="navbar">
+
+            <div class="logo">
+                Email Agent
+                </div>
+            </a>
+            <div class="navbar-expand">
+                </div>
+        <a href="{% url 'get_inbox' %}">
+            <div class="navbar-element">
+                <i class="fa-solid fa-envelope icon"></i>
+                Get Inbox
+            </div>
+        </a>
+            <div class="navbar-element">
+                <i class="fa-solid fa-list icon"></i>
+                Categories
+                </div>
+        <a href="{% url 'get_replies' %}">
+            <div class="navbar-element">
+                
+                <i class="fa-solid fa-reply icon"></i>
+                Sent Replies
+              
+            </div>
+        </a>
+        <a href="{% url "ask-agent" %}">
+            <div class="navbar-element">
+                
+                <i class="fa-brands fa-rocketchat icon"></i>
+                Talk to assistant
+                
+            </div>
+        </a>
+
+        </div>
+    </div>
+        <div class="body-content">
+        {% block content%}
+        
+        {% endblock %}
+        </div>
+        <div class="footer">
+        </div>
+    </body>
+
+</html>

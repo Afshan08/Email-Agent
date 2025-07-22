@@ -1,0 +1,17 @@
+{% load static %}
+<html>
+    <head>
+        <title>
+            {% block title %}
+            Layout
+            {% endblock %}
+        </title>
+        <link href="{% static 'css/auth_layout.css' %}" rel="stylesheet">
+        {% block static %} 
+        {% endblock %}
+    </head>
+    <body>
+        {% block body %}
+        {% endblock %}
+    </body>
+</html>

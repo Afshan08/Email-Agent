@@ -1,0 +1,99 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block stylesheet %}
+    <link href="{% static 'css/get_mails.css' %}" rel="stylesheet">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block javascript %}
+    <script src="{% static 'javascript/send_mails.js' %}"></script>
+{% endblock %}
+
+{% block title %}Inbox{% endblock %}
+
+{% block content %}
+<h3 class="heading">Sent Replies</h3>
+<div class="all-mails">
+    {% for mail in sent_mails %}
+        {% if not mail.sent %}
+            <a href="{% url 'get_indivisual_message' mail.id %}">
+                <div class="inbox" id="inbox-{{ mail.id }}">
+                    <div class="mail-subject">
+                        {{ mail.subject }}
+                    </div>
+                </div>
+            </a>
+        {% endif %}
+    {% empty %}
+        <p class="heading">No sent mails found.</p>
+    {% endfor %}
+</div>
+
+<h3 class="heading">Mails In Your Inbox</h3>
+<div class="all-mails">
+    {% for mail in page_obj %}
+    {% with reply=mail.incomingemails_set.all|first %}
+        {% if not mail.is_outgoing and not reply.sent %}
+            <a href="{% url 'get_indivisual_message' mail.id %}">
+                <div class="inbox" id="inbox-{{ mail.id }}">
+                    <div class="mail-subject">
+                        {{ mail.subject }}
+                    </div>
+
+                    <div class="mail-buttons">
+                        <button class="inbox-buttons send-reply"
+                                data-message-id="{{ mail.message_id }}"
+                                data-thread-id="{{ mail.thread_id }}">
+                            Send Reply
+                        </button>
+                
+                    {% if reply and reply.is_reply_generated_by_agent %}
+                        {% if not reply.reviewed %}
+                            <a href="{% url 'generate_agents_response' mail.id %}">
+                                <button class="inbox-buttons edit-mail">Generate Reply</button>
+                            </a>
+                        {% else %}
+                            <a href="{% url 'generate_agents_response' mail.id %}">
+                                <button class="inbox-buttons edit-mail">Edit Mail</button>
+                            </a>
+                        {% endif %}
+                    {% else %}
+                        <a href="{% url 'generate_agents_response' mail.id %}">
+                            <button class="inbox-buttons edit-mail">Generate Reply</button>
+                        </a>
+                    {% endif %}
+   
+                    </div>
+                </div>
+            </a>
+        {% endif %}
+        {% endwith %}
+    {% empty %}
+        <p class="heading">No mails found in your inbox.</p>
+    {% endfor %}
+</div>
+
+{% comment %} Pagination Controls {% endcomment %}
+{% if page_obj.has_other_pages %}
+  <ul class="pagination">
+    {% if page_obj.has_previous %}
+      <li><a href="?page=1">First</a></li>
+      <li><a href="?page={{ page_obj.previous_page_number }}">«</a></li>
+    {% else %}
+      <li class="disabled"><span>First</span></li>
+      <li class="disabled"><span>«</span></li>
+    {% endif %}
+
+    <li class="active"><span>{{ page_obj.number }}</span></li>
+
+    {% if page_obj.has_next %}
+      <li><a href="?page={{ page_obj.next_page_number }}">»</a></li>
+      <li><a href="?page={{ page_obj.paginator.num_pages }}">Last</a></li>
+    {% else %}
+      <li class="disabled"><span>»</span></li>
+      <li class="disabled"><span>Last</span></li>
+    {% endif %}
+  </ul>
+{% endif %}
+{% endblock %}

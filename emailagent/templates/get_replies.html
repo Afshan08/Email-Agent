@@ -1,0 +1,36 @@
+{% extends "layout.html" %}
+{% load static %}
+{% block stylesheet%}
+    <link href="{% static 'css/get_mails.css' %}" rel="stylesheet">
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+
+{% endblock%}
+
+{% block content %}
+<h3 class="heading">Replies Sent</h3>
+<div class="all-mails">
+    {% for reply in replies %}
+    {% if not reply.is_deleted_by_sender and reply.message_id %}
+    <div class="inbox" id="reply-{{ reply.id }}">
+        <div class="mail-subject">
+            {{ reply.subject }}
+        </div>
+        <div class="mail-subject">
+            {{ reply.content }}
+        </div>
+        <div class="mail-buttons">
+            <a href="{% url 'get_indivisual_message' reply.id %}">
+                <button class="inbox-buttons view-reply">View Reply</button>
+            </a>
+            <a href="{% url "delete_sent_mails" reply.message_id %}">
+            <button class="inbox-buttons delete-reply" data-reply-id="{{ reply.id }}">Delete Reply</button>
+            </a>
+        </div>
+        
+    </div>
+    {% endif %}
+    {% empty %}
+    <p>No replies sent yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}Agents Workflow{% endblock %}</title>
+    {% comment %} <link rel="stylesheet" href="{% static 'css/styles.css' %}" /> {% endcomment %}
+    {%block head%}
+    {% endblock%}
+</head>
+<body>
+    <header>
+        <h1>Agents Workflow App</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'index' %}">Home</a></li>
+                {% comment %} <li><a href="{% url 'agentsworkflow:some_other_view' %}">Other Page</a></li> {% endcomment %}
+            </ul>
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+        <!-- Main content goes here -->
+        {% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2024 Agents Workflow</p>
+    </footer>
+        <script src="https://unpkg.com/htmx.org@1.9.2"></script>
+</body>
+</html>

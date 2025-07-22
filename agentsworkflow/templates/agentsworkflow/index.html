@@ -1,0 +1,24 @@
+{%extends "agentsworkflow/layout.html" %}
+{% load static %}
+{% block content %}
+
+<button 
+  hx-get="/agents/process_emails/1" 
+  hx-indicator=".htmx-indicator"
+  hx-target=".htmx-indicator" 
+  hx-swap="innerHTML"
+>
+  📨 Process Emails
+</button>
+
+<div id="email-results">
+  <p>⚠️ No replies yet.</p>
+</div>
+
+
+<div class="htmx-indicator" style="display: none;">
+    <p>🧠 Thinking... please wait while replies are generated.</p>
+</div>
+Process My Emails
+</button>
+{% endblock %}

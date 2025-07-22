@@ -1,0 +1,41 @@
+.email-box {
+    border: 2px solid #007BFF; /* Blue border */
+    background: linear-gradient(135deg, #28a745 0%, #007BFF 100%); /* Green to blue gradient */
+    padding: 15px;
+    margin: 15px 0;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+    color: white;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.email-box:hover {
+    background: linear-gradient(135deg, #218838 0%, #0056b3 100%);
+}
+
+.email-box .sender {
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-bottom: 5px;
+    color: #d4edda; /* Light green */
+}
+
+.email-box .subject {
+    font-weight: 600;
+    font-size: 1em;
+    margin-bottom: 8px;
+    color: #cce5ff; /* Light blue */
+}
+
+.email-box .body {
+    font-size: 0.95em;
+    margin-bottom: 8px;
+    color: #e2e6ea; /* Very light blue/gray */
+}
+
+.email-box .timestamp {
+    font-size: 0.85em;
+    color: #b8daff; /* Pale blue */
+    text-align: right;
+}

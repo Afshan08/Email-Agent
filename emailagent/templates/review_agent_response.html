@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2>Review Generated Reply</h2>
+
+<p><strong>Subject:</strong> {{ original_email.subject }}</p>
+<p><strong>From:</strong> {{ original_email.sender.email }}</p>
+<p><strong>Snippet:</strong> {{ original_email.snippet }}</p>
+
+<form method="POST">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <button type="submit">✅ Mark as Reviewed & Save</button>
+</form>
+{% endblock%}
