@@ -3,6 +3,8 @@
 **EmailAgent** is a secure, AI-powered web application that helps users manage and reply to their emails intelligently. It integrates with Gmail using OAuth2 and lets users interact with their inbox through a smart, chat-based interface powered by OpenAI's Agent SDK.
 
 The core goal is to **classify emails**, **identify important messages**, and **generate meaningful, personalized replies** that match the user’s writing style — all while keeping **user privacy and security** at the center.
+- 📹 [Demo: Intelligent Email Agent - Part 1](https://www.youtube.com/watch?v=3e_KJy-Ae0g) — Walkthrough of the authentication flow and the idea behind the intelligent email assistant.
+- 📹 [Demo: Intelligent Email Agent - Part 2](https://www.youtube.com/watch?v=gzn7Ww1XwXw) — Exploring chat-based interactions, agent-generated replies, and secure email handling.
 
 ---
 
