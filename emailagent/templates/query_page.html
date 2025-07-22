@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block javascript %}
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById('queryForm');
+        
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const query = document.querySelector('#id_query').value;
+
+            const formData = new FormData();
+            formData.append("query", query);
+
+            const responseDiv = document.getElementById("responseDiv");
+            responseDiv.textContent = "Loading...";
+            
+            try {
+                const res = await fetch("/agent_chat_response/", {
+                    method: "POST",
+                    body: formData
+                });
+                
+                const data = await res.json();
+                if (res.ok) {
+                    responseDiv.textContent = data.response;
+                    console.log("Went fine");
+                } else {
+                    responseDiv.textContent = data.error || "Something went wrong.";
+                    console.error("Server Error:", data.error || "No detailed error");
+                    console.log("did not Went fine");
+                }
+            } catch (err) {
+                responseDiv.textContent = "Error connecting to server.";
+            }
+        });
+    });
+</script>
+
+{% endblock %}
+
+{% block content %}
+<h1>Ask Something</h1>
+<form id="queryForm">
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+</form>
+
+<h3>Response:</h3>
+<div id="responseDiv" style="border: 1px solid #ccc; padding: 10px;"></div>
+{% endblock %}
+

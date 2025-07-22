@@ -1,0 +1,21 @@
+{% extends "agentsworkflow/layout.html" %}
+{% load static %}
+{% block head%}
+    <link href="{% static 'css/fetching_data.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+
+{% for data in data %}
+    <div class="email-box">
+        <p class="sender">{{ data.sender }}</p>
+        <p class="subject">{{ data.subject }}</p>
+        <p class="body">{{ data.body }}</p>
+        <p class="timestamp">{{ data.timestamp }}</p>
+    </div>
+{% empty %}
+    <p> No incoming emails </p>
+{% endfor %}
+
+<p>{{data}}</p>
+
+{% endblock %}

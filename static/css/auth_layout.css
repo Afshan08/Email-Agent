@@ -1,0 +1,16 @@
+.col-lg-10{
+    
+    font-family: "Roboto", sans-serif;
+    background-color: #f2f2f2;
+    color: #333333;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar{
+    background-color: blue !important;
+    width: 100%;
+    margin-right: 0;
+    margin-right: 0 !important;
+}
+
