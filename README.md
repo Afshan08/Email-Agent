@@ -1,65 +1,93 @@
-# 📬 EmailAgent
+# EmailAgent Web Application
 
-**EmailAgent** is a secure, AI-powered web application that helps users manage and reply to their emails intelligently. It integrates with Gmail using OAuth2 and lets users interact with their inbox through a smart, chat-based interface powered by OpenAI's Agent SDK.
+## Introduction
 
-The core goal is to **classify emails**, **identify important messages**, and **generate meaningful, personalized replies** that match the user’s writing style — all while keeping **user privacy and security** at the center.
-- 📹 [Demo: Intelligent Email Agent - Part 1](https://www.youtube.com/watch?v=3e_KJy-Ae0g) — Walkthrough of the authentication flow and the idea behind the intelligent email assistant.
-- 📹 [Demo: Intelligent Email Agent - Part 2](https://www.youtube.com/watch?v=gzn7Ww1XwXw) — Exploring chat-based interactions, agent-generated replies, and secure email handling.
+EmailAgent is a sophisticated web application designed to streamline email management by integrating deeply with Gmail. Built using Django on the backend and JavaScript on the frontend, this application offers users a seamless experience to sync, view, send, reply, and categorize emails. Leveraging asynchronous processing and AI-powered agents, EmailAgent intelligently categorizes incoming emails and can generate suggested replies, enhancing productivity and email handling efficiency. The application features a clean, professional interface with multiple views for inbox management, individual email review, and agent-generated responses.
 
----
+## 🎥 Demo Videos
 
-## 🚀 Features
+- [📺 Demo Part 1 – Core Functionality (Inbox, Sync, Replies)](https://www.youtube.com/watch?v=3e_KJy-Ae0g)
+- [📺 Demo Part 2 – AI Agent and Chat-Based Interface](https://www.youtube.com/watch?v=gzn7Ww1XwXw)
 
-- 🔐 **Secure Gmail Authentication** via OAuth2 using Django Allauth
-- 🤖 **OpenAI Agent SDK** integration to generate intelligent replies
-- 📊 **Email Classification** using persona categories (e.g., Professional, Personal, Newsletters, etc.)
-- 💬 **Chat Interface** to converse with your inbox
-- 🔐 **No raw content stored** — only encrypted metadata is stored
-- 🧠 **Context-aware replies** trained from your sent email writing patterns
-- 🧪 **Token refresh mechanism** to handle expired access
-- 🔄 Built-in **reply generator**, **send mail** function, and **watch history**
-
----
-
-## 🧠 Tech Stack
-
-| Layer         | Technologies Used                                      |
-|---------------|--------------------------------------------------------|
-| 💻 Backend     | Python, Django (with Django Allauth), SQLite          |
-| ⚙️ Async Engine | `asyncio`, `asgiref`, Django async views              |
-| 🧠 AI Layer     | OpenAI Agent SDK (Runner, Tool, Guardrails)          |
-| 🔐 Security     | Gmail OAuth2, Token Refresh, Email Encryption (Fernet) |
-| 🌐 Frontend    | HTML, Tailwind CSS, Vanilla JS, Chat UI (Custom)      |
-| 🧪 Testing      | Custom scripts and prompt testing                     |
-| 🐳 DevOps       | Docker (planned), Git for version control             |
-
----
+These videos walk through the key features of EmailAgent, including Gmail sync, secure login, AI-generated replies, and asynchronous background processing.
 
 
----
+## Distinctiveness and Complexity
 
-## 🛡️ Privacy-first Approach
+EmailAgent stands apart from typical course projects by focusing on advanced email management rather than social networking or e-commerce functionalities. Unlike prior projects, it integrates directly with the Gmail API to synchronize emails in real-time, maintaining a local database of contacts and messages with detailed metadata. The complexity of this project is evident in several key areas:
 
-- ✅ User emails are **not stored** in the raw format
-- ✅ Only **essential encrypted metadata** is saved
-- ✅ Users **own their API access**; app avoids centralizing sensitive scopes
+- **Gmail API Integration:** The application handles both initial and incremental synchronization of Gmail messages, managing message states, threading, and metadata with precision.
+- **AI Agent Integration:** EmailAgent incorporates asynchronous AI agents that analyze email content to categorize messages and generate context-aware reply suggestions, a feature not commonly found in standard projects.
+- **Asynchronous Processing:** The use of Django async views and background processing ensures responsive user interactions even during complex email processing tasks.
+- **Comprehensive Email Management:** The system supports sending, replying, deleting, and reviewing emails, with detailed tracking of read, replied, and agent-reviewed statuses.
+- **Security and User Management:** Leveraging Django’s authentication system, the app ensures secure access and user-specific data handling.
 
----
+This combination of real-world API integration, AI-driven automation, and asynchronous design makes EmailAgent a uniquely challenging and feature-rich project that exceeds the complexity and distinctiveness requirements of the course.
 
-## 🏗️ Upcoming Plans
+## File Descriptions
 
-- [ ] Outlook integration
-- [ ] Fully containerized setup with Docker
-- [ ] Admin dashboard to manage access tokens and analytics
-- [ ] More advanced email analysis tools (e.g., tone detection, summarization)
+- **emailagent/agentsworkflow/models.py:** Defines Django models for Gmail contacts, incoming emails with extensive metadata, and synchronization state tracking.
+- **emailagent/emailagent/views.py:** Contains Django views handling email synchronization, inbox display, individual email retrieval, sending and replying to emails, and AI agent interaction.
+- **emailagent/static/javascript/send_mails.js:** Frontend JavaScript managing user interactions for sending replies asynchronously via API calls.
+- **emailagent/static/css/**: Contains CSS files defining the application's visual layout and styling. While explicit media queries are limited, the layout uses flexible box models for adaptable UI.
+- **emailagent/emailagent/templates/**: HTML templates rendering the user interface for inbox, email details, agent responses, and other pages.
+- **emailagent/agentsworkflow/utils.py:** Utility functions supporting email parsing, batching, and AI agent communication.
+- **emailagent/authentication/**: Django app managing user authentication, signals, and related utilities.
+- **emailagent/manage.py:** Django project management script.
 
----
 
-## 📣 How to Use
+## How to Run
 
-1. Clone the repo:
+1. **Set up a Python virtual environment:**
+
    ```bash
-   git clone https://github.com/Afshan08/EmailAgent.git
-   cd EmailAgent
+   python -m venv venv
+   source venv/Scripts/activate   # On Windows
+   source venv/bin/activate       # On Unix or MacOS
+   ```
 
-👩‍💻 Built with ❤️ by Afshan Afridi
+2. **Install dependencies:**
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+3. **Apply database migrations:**
+
+   ```bash
+   python manage.py migrate
+   ```
+
+4. **Create a superuser (optional, for admin access):**
+
+   ```bash
+   python manage.py createsuperuser
+   ```
+
+5. **Run the development server:**
+
+   ```bash
+   python manage.py runserver
+   ```
+
+6. **Access the application:**
+
+   Open your browser and navigate to `http://localhost:8000/`.
+
+7. **Additional setup:**
+
+   - Configure Gmail API credentials and OAuth for user authentication and email access.
+   - Ensure environment variables or settings for Gmail API keys are properly set.
+
+## Additional Information
+
+- The project uses Django’s built-in authentication system to manage users securely.
+- AI agents are integrated asynchronously to analyze and respond to emails, improving user productivity.
+- The frontend uses JavaScript to provide interactive features such as sending replies without page reloads.
+- While the CSS uses flexible layouts, further enhancements for mobile responsiveness can be added.
+- The project requires Python packages.
+- The application is designed to be extensible, allowing future improvements such as enhanced UI responsiveness, additional AI capabilities, and expanded email management features.
+
+---
+
+This README provides a comprehensive overview of EmailAgent, demonstrating its distinctiveness and complexity relative to other course projects. It documents the project structure, setup instructions, and key features to assist users and staff in understanding and evaluating the application.
